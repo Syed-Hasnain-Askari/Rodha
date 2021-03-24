@@ -1,9 +1,9 @@
+import React from 'react'
 import './App.css';
-
 function App() {
   return (
     <div className="App">
-     <login/>
+      <h1>Heollow World</h1>
     </div>
   );
 }
