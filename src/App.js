@@ -1,10 +1,10 @@
 import React from 'react'
+import Signup from './component/Signup'
 import './App.css';
 function App() {
   return (
     <div className="App">
-      <h1>Heollow World</h1>
-      <h1>We are in login branch</h1>
+      <Signup/>
     </div>
   );
 }
