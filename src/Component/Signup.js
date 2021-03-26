@@ -11,6 +11,7 @@ export default function Signup() {
     const email = useRef()
     const password = useRef()
     const confpassword = useRef()
+    const option = useRef()
     //Run on Click Event
     const handleSubmit = async (e)=>{
         e.preventDefault()
@@ -19,6 +20,13 @@ export default function Signup() {
         }
         auth.createUserWithEmailAndPassword(email.current.value,password.current.value)
             .then((userCredential) => {
+              const db = Firebase.firestore();
+              const userRef = db.collection("User").add({
+                name: name.current.value,
+                email: email.current.value,
+                option:option.current.value
+              });
+              swal("Registration has been Successfull!", "You clicked the button!", "success");
         })
         .catch((error) => {
             var errorMessage = error.message;
@@ -26,18 +34,6 @@ export default function Signup() {
             // ..
         });
         setLoading(false)
-        const db = Firebase.firestore();
-        db.settings({
-          timestampsInSnapshots: true
-        });
-        const userRef = db.collection("User").add({
-          name: email.current.value,
-          email: email.current.value
-        });
-        swal("Registration has been Successfull!", "You clicked the button!", "success");
-        email.current.value = ""
-        password.current.value = ""
-        confpassword.current.value = ""
     }
     return (
         <div className="container">
@@ -71,6 +67,14 @@ export default function Signup() {
             placeholder=" Confirm Password" 
             ref={confpassword}
             required />
+      <div>
+    <select name="option" className="custom-select">
+    <option selected>Select Option</option>
+    <option value="Customer" ref={option}>Customer</option>
+    <option value="Truck Driver">Truck  Driver</option>
+    </select>
+      </div>
+    
      <div className="checkbox mb-3">
        <label>
          <input type="checkbox" defaultValue="remember-me" /> Remember me
