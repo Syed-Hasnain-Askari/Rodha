@@ -1,10 +1,13 @@
 import React,{useState,useRef} from 'react'
 import 'firebase/functions'
+import {Link} from 'react-router-dom'
 import Firebase  from '../Firebase'
 import {auth} from "../Firebase";
+import {useHistory} from "react-router-dom";
 import 'firebase/firestore';
 import swal from 'sweetalert';
 export default function Signup() {
+    const history = useHistory()
     const [error,setError] = useState("")
     const [loading,setLoading] = useState(false)
     const name = useRef()
@@ -13,6 +16,7 @@ export default function Signup() {
     const confpassword = useRef()
     const option = useRef()
     //Run on Click Event
+    const db = Firebase.firestore();
     const handleSubmit = async (e)=>{
         e.preventDefault()
         if(password.current.value!== confpassword.current.value){
@@ -20,11 +24,10 @@ export default function Signup() {
         }
         auth.createUserWithEmailAndPassword(email.current.value,password.current.value)
             .then((userCredential) => {
-              const db = Firebase.firestore();
-              const userRef = db.collection("User").add({
-                name: name.current.value,
-                email: email.current.value,
-                option:option.current.value
+              db.collection("User").doc(userCredential.user.uid).set({
+              name: name.current.value,
+              email: email.current.value,
+              option:option.current.value
               });
               swal("Registration has been Successfull!", "You clicked the button!", "success");
         })
@@ -40,7 +43,7 @@ export default function Signup() {
         <div className="row d-flex justify-content-center">
              <div className="col-md-6 col-sm-12">
              <div className="card mt-5" style={{width:"400px"}}>
-     <form className="form-signin" onSubmit={handleSubmit}>
+     <form className="form-signin" id="signup-form" onSubmit={handleSubmit}>
      <div className="d-flex justify-content-center">
      <img className="mb-4 d-flex align0" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width={72} height={72} />
      </div>
@@ -69,9 +72,9 @@ export default function Signup() {
             required />
       <div>
     <select name="option" className="custom-select">
-    <option selected>Select Option</option>
-    <option value="Customer" ref={option}>Customer</option>
-    <option value="Truck Driver">Truck  Driver</option>
+    <option selected >Select Option</option>
+    <option ref={option} value="Customer">Customer</option>
+    <option ref={option} value="Truck Driver">Truck Driver</option>
     </select>
       </div>
     
@@ -82,6 +85,9 @@ export default function Signup() {
      </div>
      <button className="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
      <label className=" alert-danger">{error}</label>
+     <div className="form-group">
+        <p className="text-center">Already have an account? <Link to='/Login'><a id="signup">Sign up here</a></Link> </p>
+      </div>
      <p className="mt-5 mb-3 text-muted">© 2017-2018</p>
    </form>
      </div>
