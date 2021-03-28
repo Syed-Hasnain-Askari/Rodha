@@ -1,10 +1,12 @@
 import React from 'react';
 import {auth} from '../Firebase';
+import {useHistory} from 'react-router-dom'
 
-export default function DashBoardNavBar() {
+export default function DashBoardNavBar(props) {
+    const history = useHistory() 
     const signOut = ()=>{
         auth.signOut().then(() => {
-            // Sign-out successful.
+            history.push('/')
           }).catch((error) => {
             // An error happened.
           });
@@ -19,7 +21,7 @@ export default function DashBoardNavBar() {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav">
             <li className="nav-item active">
-              <a className="nav-link" href="#">SignUp<span className="sr-only">(current)</span></a>
+              <a className="nav-link" href="#">{props.name}<span className="sr-only">(current)</span></a>
             </li>
             <li className="nav-item">
               <button className="btn btn-outline-primary" onClick={()=>signOut()}>Signout</button>

@@ -14,17 +14,17 @@ export default function Login() {
       e.preventDefault()
       auth.signInWithEmailAndPassword(email.current.value,password.current.value)
           .then((userCredential) => {
-          db.collection("User").where(db.FieldPath.documentId() == userCredential.user.uid)
-          .where("option","==","Customer")
-          .get()
-          .then((querysnapshot)=>{
-            if(!querysnapshot.empty){
-              history.push('/')
-            }
-            else{
-              history.push('/Driver')
-            }
-          })
+           var docRef = db.collection("User").where("option","==","Customer")
+           docRef.get().then((querySnapshot) => {
+            querySnapshot.forEach((doc)=>{
+              if (userCredential.user.uid == doc.id) {
+                console.log(userCredential.user.uid,"=>",doc.id)
+                 history.push('/')
+             }
+            })
+        }).catch((error) => {
+            console.log("Error getting document:", error);
+        });
       })
       .catch((error) => {
           var errorCode = error.code;

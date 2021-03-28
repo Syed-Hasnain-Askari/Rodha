@@ -15,16 +15,16 @@ import Driver from './Component/Driver'
 export default function AppRouter() {
     const user = useContext(UserContext);
     return (
-        user ?
+        user?
         <Router>
-            <Switch>
-                <Route exact path="/">
+               <Switch>
+               <Route exact path="/">
                   <Customer/>
                 </Route>
-                <Route path="/Driver">
-                  <Driver/>
+                <Route path="*">
+                    <Error/>
                 </Route>
-            </Switch>
+               </Switch>
         </Router>
         :
         <Router>
