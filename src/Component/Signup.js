@@ -30,6 +30,8 @@ export default function Signup() {
               option:option.current.value
               });
               swal("Registration has been Successfull!", "You clicked the button!", "success");
+              auth.signOut()
+              history.push('/Login')
         })
         .catch((error) => {
             var errorMessage = error.message;
@@ -72,7 +74,7 @@ export default function Signup() {
             required />
       <div>
     <select name="option" className="custom-select">
-    <option selected >Select Option</option>
+    <option>Select Option</option>
     <option ref={option} value="Customer">Customer</option>
     <option ref={option} value="Truck Driver">Truck Driver</option>
     </select>
@@ -83,7 +85,7 @@ export default function Signup() {
          <input type="checkbox" defaultValue="remember-me" /> Remember me
        </label>
      </div>
-     <button className="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+     <button className="btn btn-lg btn-primary btn-block" type="submit">SignUp</button>
      <label className=" alert-danger">{error}</label>
      <div className="form-group">
         <p className="text-center">Already have an account? <Link to='/Login'><a id="signup">Sign up here</a></Link> </p>

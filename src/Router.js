@@ -3,14 +3,13 @@ import Login from './Component/Login'
 import Signup from './Component/Signup'
 import Home from './Component/Home'
 import Error from './Component/Error'
-import Customer from './Component/Customer'
+import Customer from './Component/MainDashBoard'
 import { UserContext } from './Provider/UserProvider'
 import {
   BrowserRouter as Router,
   Switch,
   Route,
 } from "react-router-dom";
-import Driver from './Component/Driver'
 
 export default function AppRouter() {
     const user = useContext(UserContext);
