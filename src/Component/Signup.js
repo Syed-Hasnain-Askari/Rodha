@@ -14,7 +14,21 @@ export default function Signup() {
     const email = useRef()
     const password = useRef()
     const confpassword = useRef()
-    const option = useRef()
+    // const option = useRef()
+    // console.log(option,"option")
+    const[value,setValue]=useState("")
+    const[disabled,setDisabled]=useState(false);
+    const handle=()=>{
+     
+      if(disabled==true){
+        setDisabled(false)
+      }
+      else{
+        setDisabled(true)
+      }
+     
+    }
+    console.log(value,"values dekh bhai")
     //Run on Click Event
     const db = Firebase.firestore();
     const handleSubmit = async (e)=>{
@@ -27,11 +41,12 @@ export default function Signup() {
               db.collection("User").doc(userCredential.user.uid).set({
               name: name.current.value,
               email: email.current.value,
-              option:option.current.value
+              option:value
               });
               swal("Registration has been Successfull!", "You clicked the button!", "success");
-              auth.signOut()
-              history.push('/Login')
+              history.push('/')
+              // auth.signOut()
+              
         })
         .catch((error) => {
             var errorMessage = error.message;
@@ -39,6 +54,7 @@ export default function Signup() {
             // ..
         });
         setLoading(false)
+       
     }
     return (
         <div className="container">
@@ -73,22 +89,29 @@ export default function Signup() {
             ref={confpassword}
             required />
       <div>
-    <select name="option" className="custom-select">
-    <option>Select Option</option>
-    <option ref={option} value="Customer">Customer</option>
-    <option ref={option} value="Truck Driver">Truck Driver</option>
-    </select>
+
+     <div style={{paddingLeft:"5px"}}>
+       
+       <div><label>Customer</label>&nbsp;<input onChange={()=>{handle()}} disabled={disabled}  onClick={()=>{setValue("Customer")}} type="radio"></input></div>
+       <div><label>Driver</label>&nbsp;&nbsp;<input onChange={()=>{handle()}} disabled={disabled} onClick={()=>{setValue("Driver")}} type="radio"></input></div>
+
+    </div> 
+
+
       </div>
     
-     <div className="checkbox mb-3">
+     <div className="checkbox mb-3 ml-1">
        <label>
          <input type="checkbox" defaultValue="remember-me" /> Remember me
        </label>
      </div>
-     <button className="btn btn-lg btn-primary btn-block" type="submit">SignUp</button>
+     <button className="btn btn-lg btn-primary btn-block" type="submit" >SignUp</button>
      <label className=" alert-danger">{error}</label>
      <div className="form-group">
-        <p className="text-center">Already have an account? <Link to='/Login'><a id="signup">Sign up here</a></Link> </p>
+        <p className="text-center">Already have an account? 
+        <Link to='/'>
+          <a id="signin">Sign in here</a>
+          </Link> </p>
       </div>
      <p className="mt-5 mb-3 text-muted">© 2017-2018</p>
    </form>

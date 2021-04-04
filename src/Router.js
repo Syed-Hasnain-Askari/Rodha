@@ -1,5 +1,5 @@
 import React,{useContext} from 'react'
-import Login from './Component/Login'
+import Login from './component/Login'
 import Signup from './Component/Signup'
 import Home from './Component/Home'
 import Error from './Component/Error'
@@ -14,34 +14,49 @@ import {
 export default function AppRouter() {
     const user = useContext(UserContext);
     return (
-        user?
-        <Router>
-               <Switch>
-               <Route exact path="/">
-                  <Customer/>
-                </Route>
-                <Route path="*">
-                    <Error/>
-                </Route>
-               </Switch>
-        </Router>
-        :
+        // user?
+        // <Router>
+        //        <Switch>
+        //        <Route exact path="/">
+        //           <Customer/>
+        //         </Route>
+        //         <Route path="*">
+        //             <Error/>
+        //         </Route>
+        //        </Switch>
+        // </Router>
+        // :
+        // <Router>
+        //     <Switch>
+        //         <Route exact path="/">
+        //             <Home/>
+        //         </Route>
+        //         <Route path="/Login">
+        //             <Login/>
+        //         </Route>
+        //         <Route path="/Signup">
+        //             <Signup/>
+        //         </Route>
+        //         <Route path="*">
+        //             <Error/>
+        //         </Route>
+        //     </Switch>
+        // </Router>
         <Router>
             <Switch>
                 <Route exact path="/">
-                    <Home/>
+                  { user? <Customer />:<Login/>}
                 </Route>
-                <Route path="/Login">
-                    <Login/>
-                </Route>
-                <Route path="/Signup">
-                    <Signup/>
-                </Route>
+                <Route exact path="/Signup">
+            
+                    { user? <Customer />:        <Signup/>}
+                 </Route>
                 <Route path="*">
-                    <Error/>
+                    <Error />
                 </Route>
             </Switch>
         </Router>
+
     )
 }
 
